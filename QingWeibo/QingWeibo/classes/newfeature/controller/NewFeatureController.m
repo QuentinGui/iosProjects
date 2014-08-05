@@ -23,6 +23,7 @@
     imageView.image=[UIImage imageNamed:@"new_feature_background.png"];
     
     imageView.frame = [UIScreen mainScreen].applicationFrame;
+    imageView.userInteractionEnabled=YES;
     /*
      以3.5inch为例 (640*960)点坐标是 320 480
      applicationFrame的好处是自动判断是否有状态栏
@@ -44,23 +45,35 @@
  3.hidden=YES
  4.没有添加控制器的view上面
  */
-
+/*
+ 一个scrollview无法滚动
+ 1.contentSize 没有值
+ 2.scrollView不能接收到触摸事件
+ 
+ */
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     //debug ,why there ain't images her
-    NSLog(@"%@",NSStringFromCGRect(self.view.bounds));
+   // NSLog(@"%@",NSStringFromCGRect(self.view.bounds));
     //out put   0 0 0 0
     
     
     //1. add UIScrollView
     UIScrollView *scroll =[[UIScrollView alloc]init];
+    
     scroll.frame=self.view.bounds;
+    
+    CGSize size = scroll.frame.size;
+    
     scroll.showsHorizontalScrollIndicator=NO;//hide scroll bar
+    //if you wanna scroll ,you must set the contentsize
+    scroll.contentSize=CGSizeMake(size.width*kImageCount,0);
+    scroll.pagingEnabled = YES;
     [self.view addSubview:scroll];
     //2. add images
-    CGSize size = scroll.frame.size;
+    
     for (int i=0; i<kImageCount; i++) {
         
         UIImageView *imageView =[[UIImageView alloc]init];
@@ -70,7 +83,7 @@
         //set frame
        
         imageView.frame=CGRectMake(i*size.width, 0, size.width, size.height);
-        
+
         
         [scroll addSubview:imageView];
         
