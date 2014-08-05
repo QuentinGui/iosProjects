@@ -9,8 +9,11 @@
 #import "NewFeatureController.h"
 #define kImageCount 4
 
-@interface NewFeatureController ()
+@interface NewFeatureController ()<UIScrollViewDelegate>
+{
+    UIPageControl *_page;
 
+}
 @end
 
 @implementation NewFeatureController
@@ -71,6 +74,10 @@
     //if you wanna scroll ,you must set the contentsize
     scroll.contentSize=CGSizeMake(size.width*kImageCount,0);
     scroll.pagingEnabled = YES;
+    //为了让page监听滚动,需要设置代理
+    scroll.delegate =self;
+    
+    
     [self.view addSubview:scroll];
     //2. add images
     
@@ -91,14 +98,33 @@
     }
     
     //3. add UIPageControll
+    UIPageControl * page =[[UIPageControl alloc]init];
+    page.center=CGPointMake(size.width*0.5, size.height*0.95) ;
+    page.currentPageIndicatorTintColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"new_feature_pagecontrol_checked_point.png"]];//[UIColor redColor];
+    page.pageIndicatorTintColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"new_feature_pagecontrol_point"]];
+    page.numberOfPages=kImageCount;
+    page.bounds=CGRectMake(0, 0, 150, 0) ;//height for it can't be set ,it is 36
+    [self.view addSubview:page];
+    /*
+     bound 只影响大小,不影响宽高
+     frame 可以影响宽高
+     */
     
-    
-    
-    
+    _page=page;
     
     
     
 }
+
+
+
+#pragma mark - 滚动代理方法
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    _page.currentPage=scrollView.contentOffset.x/scrollView.frame.size.width;
+   
+
+}
+
 
 
 @end
