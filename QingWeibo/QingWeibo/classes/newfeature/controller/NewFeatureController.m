@@ -108,7 +108,6 @@
     /*
      bound 只影响大小,不影响宽高
      frame 可以影响宽高
-     sss
      */
     
     _page=page;
