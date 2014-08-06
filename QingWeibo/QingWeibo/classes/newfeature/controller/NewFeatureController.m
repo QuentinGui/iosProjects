@@ -4,7 +4,7 @@
 //
 //  Created by guiqing on 8/5/14.
 //  Copyright (c) 2014 Personal. All rights reserved.
-//
+// 
 
 #import "NewFeatureController.h"
 #define kImageCount 4
